@@ -530,7 +530,7 @@ function isActuallyImgur(externallink) {
 
 function onResize() {
   $('.backgradient').height($(window).height() - 139 + noTaskbar * 60);
-  $('.mainrow').height($(window).height() - 166 + noTaskbar * 60);
+  $('.mainrow').height($(window).height() - 200 + noTaskbar * 60);
   $('#previewarea').height($(window).height() - 216 + noTaskbar * 60);
   $('.theemailbody').height($(window).height() - 146 + noTaskbar * 60);
   $('.right').width($(window).width() - 640 + noTaskbar * 60);
