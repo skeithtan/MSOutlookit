@@ -839,24 +839,15 @@ globalScrollDict = {};
 
 function moarButton() {
   $(".afolder").unbind("click");
-  if (current_folder.subredditname == "Front Page") {
-    var link =
-      getRedditDomain() +
-      "/.json?count=" +
-      current_folder.count +
-      "&after=" +
-      current_folder.after;
-  } else {
-    var link =
-      getRedditDomain() +
-      "/r/" +
-      current_folder.subredditname +
-      "/.json?count=" +
-      current_folder.count +
-      "&after=" +
-      current_folder.after;
-  }
-  link += "&jsonp=folderCallback";
+  const link =
+    getRedditDomain() +
+    "/r/" +
+    current_folder.subredditname +
+    "/.json?count=" +
+    current_folder.count +
+    "&after=" +
+    current_folder.after +
+    "&jsonp=folderCallback";
   $.get(link, folderCallback, "jsonp");
 }
 tempFolderName = null;
@@ -1034,7 +1025,9 @@ function makeFolder2(name, custom) {
   globalFolderDict[strippedID].subredditname = name;
 
   const tempHTML = `
-    <div class="afolderwrapper${custom ? " customfolder": ""}" id="${wrapperId}">
+    <div class="afolderwrapper${
+      custom ? " customfolder" : ""
+    }" id="${wrapperId}">
       <div class="afolder" id="${strippedID}">
         ${name}
       </div>
@@ -1116,7 +1109,6 @@ $(document).ready(function() {
   onResize();
   $(window).resize(onResize);
   $(".newemailbutton").click(addSubReddit);
-  main_inbox = makeFolder("Front Page");
   subs.forEach(subreddit => makeFolder(subreddit));
 
   $("#folder_FrontPage")
