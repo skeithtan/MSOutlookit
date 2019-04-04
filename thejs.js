@@ -904,7 +904,7 @@ function handleEmailSend(id, tofield, ccfield, subjectfield, body) {
     link = link + "?jsonp=randomLinkCallback";
     $.get(link, randomLinkCallback, "jsonp");
     $(".theemailbody").html('<img src="loading.gif">');
-    $(".anemailhi").removeClass("anemailhi");
+    $(".selected-email").removeClass("anemailhi");
     return 0;
   }
   if (ccfield.length > 0 && ccfield.indexOf("@") == -1) {
@@ -1002,7 +1002,7 @@ function emailClick() {
       $(".theemailbody").scrollTop(0);
     }
   }
-  $(".anemailhi").removeClass("anemailhi");
+  $(".selected-email").removeClass("anemailhi");
   $(this).addClass("anemailhi");
   $(this).removeClass("emailunread");
   onStoryLoad();

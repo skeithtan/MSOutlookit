@@ -49,7 +49,7 @@ textarea {
 
 
 .selected-folder {
-	background:rgb(163, 189, 255);
+	background:#bed0fc;
 }
 
 .subreddit-wrapper {
@@ -116,7 +116,7 @@ td.right * .uparrow {
 	background-position:0px -45px;
 }
 
-td.right:hover * .uparrow {
+td.right * .uparrow {
 	background-image:url('arrows.png');
 }
 
@@ -129,7 +129,7 @@ td.right * .downarrow {
 	height:18px;
 	background-position:0px -65px;
 }
-td.right:hover * .downarrow {
+td.right * .downarrow {
 	background-image:url('arrows.png');
 }
 
@@ -298,15 +298,12 @@ div.theemailbody * .ui-resizable-e {
 	position:relative;
 }
 
-td.right:hover * .commentroothi {
+td.right * .commentroothi {
 	background:#CAE6E6;
 	border:solid 1px blue;
 }
-td.right:hover * .md {
-}
 
-
-td.right:hover  * .showhover {
+td.right  * .showhover {
 	opacity:0.8;
 }
 
@@ -318,7 +315,7 @@ td.right:hover  * .showhover {
 	border-left: 2px solid #FFF;
 }
 
-td.right:hover * a {
+td.right * a {
 	text-decoration:underline;
 	cursor:auto;
 	color:-webkit-link;
@@ -337,22 +334,22 @@ td.right * iframe {
 	display:none;
 }
 
-td.right:hover * iframe {
+td.right * iframe {
 	display:block;
 }
 
 td.right * .lynxexpandodiv {
 	display:none;
 }
-td.right:hover * .lynxexpandodiv {
+td.right * .lynxexpandodiv {
 	display:block;
 }
 
-td.right:hover * img {
+td.right * img {
 	display:block;
 }
 
-td.right:hover * .authorandstuff {
+td.right * .authorandstuff {
 	display:block;
 }
 
@@ -361,55 +358,55 @@ td.right * .childrencomments {
 	border-left:2px solid #FFF;
 }
 
-td.right:hover * .childrencomments {
+td.right * .childrencomments {
 	background:#E0FFFF;
 }
 
-td.right:hover * .child0 {
-	border-left:2px dashed #0066FF;
+td.right * .child0 {
+	border-left:2px #0066FF;
 }
 
-td.right:hover * .child1 {
-	border-left:2px dashed #0099FF;
+td.right * .child1 {
+	border-left:2px #0099FF;
 }
 
-td.right:hover * .child2 {
-	border-left:2px dashed #00CCFF;
+td.right * .child2 {
+	border-left:2px #00CCFF;
 }
 
-td.right:hover * .child3 {
-	border-left:2px dashed #00CCA3;
+td.right * .child3 {
+	border-left:2px #00CCA3;
 }
 
-td.right:hover * .child4 {
-	border-left:2px dashed #00CC7A;
+td.right * .child4 {
+	border-left:2px #00CC7A;
 }
 
-td.right:hover * .child5 {
-	border-left:2px dashed #33FF33;
+td.right * .child5 {
+	border-left:2px #33FF33;
 }
 
-td.right:hover * .child6 {
-	border-left:2px dashed #66FF66;
+td.right * .child6 {
+	border-left:2px #66FF66;
 }
-td.right:hover * .child7 {
-	border-left:2px dashed #99FF33;
+td.right * .child7 {
+	border-left:2px #99FF33;
 }
-td.right:hover * .child8 {
-	border-left:2px dashed #CCFF33;
+td.right * .child8 {
+	border-left:2px #CCFF33;
 }
-td.right:hover * .child9 {
-	border-left:2px dashed #FFFF00;
+td.right * .child9 {
+	border-left:2px #FFFF00;
 }
-td.right:hover * .child10 {
-	border-left:2px dashed #FFCC00;
+td.right * .child10 {
+	border-left:2px #FFCC00;
 }
-td.right:hover * .child11 {
-	border-left:2px dashed #FF9933;
+td.right * .child11 {
+	border-left:2px #FF9933;
 }
 
-td.right:hover * .child12 {
-	border-left:2px dashed #FF6600;
+td.right * .child12 {
+	border-left:2px #FF6600;
 }
 
 .commentbody {
@@ -457,6 +454,9 @@ td.right:hover * .child12 {
 	left:7px;
 	border-left: 1px solid #D2D2D2;
 	vertical-align:top;
+	display: flex;
+	vertical-align: center;
+	background: #eee;
 }
 .folderholder {
 	height: 100%;
@@ -472,7 +472,7 @@ td.right:hover * .child12 {
 	top:4px;
 	cursor:pointer;
 }
-td.right:hover * .storycommentline {
+td.right * .storycommentline {
 	background:#85D6FF;
 }
 
@@ -549,7 +549,7 @@ background-clip: padding-box;
 }
 
 
-td.right:hover *  .arrowshadow {
+td.right *  .arrowshadow {
 	box-shadow: 0px 0px 5px #999;
 }
 .upped {
@@ -560,21 +560,22 @@ td.right:hover *  .arrowshadow {
 }
 
 .anemail {
-
 	cursor:pointer;
 	min-height:40px;
 	max-height:200px;
 	border-bottom:1px solid #E1E1E1;
 	padding-bottom:1px;
+	transition: 100ms all;
+	padding: 0;
 }
 .emailunread  * .emailtitle {
 	/*font-weight:bold;*/
 }
-.anemailhi {
-	border:1px dashed blue;
-	background:#A7CDF0;
+.selected-email {
+	background:#bed0fc;
+	padding: 8px 0;
 }
-.anemailhi * .emailtitle {
+.selected-email * .emailtitle {
 	/* color:#FFF; */
 }
 .emailicon {
@@ -738,6 +739,7 @@ td.right:hover *  .arrowshadow {
 	width:100%;
 	font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 	font-size:11pt;
+	box-shadow: 0px 0px 28px 2px rgba(0,0,0,0.10);
 }
 
 .emailbuttons {
