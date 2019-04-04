@@ -1014,8 +1014,10 @@ function makeFolder(name) {
 
 function makeFolder2(name, custom) {
   let subs = JSON.parse(localStorage.subs);
-  subs.push(name);
-  localStorage.subs = JSON.stringify(subs);
+  if (!subs.includes(name)) {
+    subs.push(name);
+    localStorage.subs = JSON.stringify(subs);
+  }
 
   var strippedID = "folder_" + name.replace(/\s/g, "");
   const removeId = `remove_${strippedID}`;
