@@ -1035,7 +1035,7 @@ function makeFolder2(name, custom) {
 
   const tempHTML = `
     <div class="afolderwrapper${custom ? " customfolder": ""}" id="${wrapperId}">
-      <div class="afolder" id="${strippedId}">
+      <div class="afolder" id="${strippedID}">
         ${name}
       </div>
       <a class="remove-link" id="${removeId}">remove</a>
@@ -1110,7 +1110,7 @@ $(document).ready(function() {
 
     localStorage.subs = JSON.stringify(subs);
   }
-  
+
   onResize();
   $(window).resize(onResize);
   $(".newemailbutton").click(addSubReddit);
