@@ -1083,11 +1083,6 @@ function addSubReddit() {
   }
 }
 $(document).ready(function() {
-  onResize();
-  $(window).resize(onResize);
-  $(".newemailbutton").click(addSubReddit);
-  main_inbox = makeFolder("Front Page");
-  
   let subs = localStorage.subs;
 
   if (!subs) {
@@ -1115,7 +1110,11 @@ $(document).ready(function() {
 
     localStorage.subs = JSON.stringify(subs);
   }
-
+  
+  onResize();
+  $(window).resize(onResize);
+  $(".newemailbutton").click(addSubReddit);
+  main_inbox = makeFolder("Front Page");
   subs.forEach(subreddit => makeFolder(subreddit));
 
   $("#folder_FrontPage")
