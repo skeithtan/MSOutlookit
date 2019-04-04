@@ -1002,8 +1002,8 @@ function emailClick() {
       $(".theemailbody").scrollTop(0);
     }
   }
-  $(".selected-email").removeClass("anemailhi");
-  $(this).addClass("anemailhi");
+  $(".selected-email").removeClass("selected-email");
+  $(this).addClass("selected-email");
   $(this).removeClass("emailunread");
   onStoryLoad();
 }
