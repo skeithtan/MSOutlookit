@@ -785,7 +785,7 @@ function folderClick(folder_name) {
   if (length > 0) {
     displayFolder(folder_name);
   } else {
-    $(".afolder").unbind("click");
+    $(".subreddit").unbind("click");
     $("#previewarea").html('<img src="loading.gif"/>');
     var subredditname = folder_name.substr(7);
     var link = getRedditDomain() + "/r/" + subredditname + "/.json";
@@ -838,7 +838,7 @@ function updateClock() {
 globalScrollDict = {};
 
 function moarButton() {
-  $(".afolder").unbind("click");
+  $(".subreddit").unbind("click");
   const link =
     getRedditDomain() +
     "/r/" +
@@ -854,7 +854,7 @@ tempFolderName = null;
 
 function folderCallback(data) {
   console.log("the data is");
-  $(".afolder").click(folderIconClick);
+  $(".subreddit").click(folderIconClick);
   var thefolder = globalFolderDict[tempFolderName];
   if (console.log) {
     console.log("what we got back");
@@ -889,7 +889,7 @@ function handleEmailSend(id, tofield, ccfield, subjectfield, body) {
     results = tofield.split(" ");
     for (var i = 1; i < results.length; i++) {
       makeFolder(results[i]);
-      $(".afolder").click(folderIconClick);
+      $(".subreddit").click(folderIconClick);
     }
     return 0;
   }
@@ -1027,17 +1027,17 @@ function makeFolder2(name, custom) {
   globalFolderDict[strippedID].subredditname = name;
 
   const tempHTML = `
-    <div class="afolderwrapper${
+    <div class="subreddit-wrapper${
       custom ? " customfolder" : ""
     }" id="${wrapperId}">
-      <div class="afolder" id="${strippedID}">
+      <div class="subreddit" id="${strippedID}">
         ${name}
       </div>
       <a class="remove-link" id="${removeId}">remove</a>
     </div>
   `;
 
-  $(".foldwraphi").removeClass("foldwraphi");
+  $(".selected-folder").removeClass("selected-folder");
   $(".folderholder").append(tempHTML);
   $("#" + strippedID).click(folderIconClick);
   $("#" + removeId).click(() => {
@@ -1050,10 +1050,10 @@ function makeFolder2(name, custom) {
 }
 
 function folderIconClick() {
-  $(".foldwraphi").removeClass("foldwraphi");
+  $(".selected-folder").removeClass("selected-folder");
   $(this)
     .parent()
-    .addClass("foldwraphi");
+    .addClass("selected-folder");
   folderClick($(this).attr("id"));
 }
 globalWindowDict = {};
@@ -1115,7 +1115,7 @@ $(document).ready(function() {
 
   $("#folder_FrontPage")
     .parent()
-    .addClass("foldwraphi");
+    .addClass("selected-folder");
   folderClick("folder_FrontPage");
   $(".outlookmin").click(function() {
     for (key in globalWindowDict) {

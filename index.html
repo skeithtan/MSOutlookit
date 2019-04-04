@@ -48,25 +48,26 @@ textarea {
 }
 
 
-.foldwraphi {
-	background:#DDD;
+.selected-folder {
+	background:rgb(58, 114, 255));
 }
 
-.afolderwrapper {
+.subreddit-wrapper {
 	display: flex;
 	padding: 8px;
 	transition: 100ms all;
+	cursor: pointer;
 }
 
-.afolderwrapper:hover {
-	background: rgba(10, 80, 255, 0.1);
+.subreddit-wrapper:hover {
+	background: rgb(109, 150, 255);
 }
 
-.afolderwrapper:hover > .remove-link {
+.subreddit-wrapper:hover > .remove-link {
 	opacity: 1;
 }
 
-.afolder {
+.subreddit {
 	flex-grow: 1;
 	margin-left:16px;
 	height:16px;
@@ -621,9 +622,13 @@ td.right:hover *  .arrowshadow {
 }
 
 .remove-link {
-	color: red;
+	color: rgb(255, 151, 128);
 	opacity: 0;
 	font-size: 10pt;
+}
+
+.remove-link:hover {
+	color: rgb(255, 100, 100);
 }
 
 .upperleftemailwindow {
