@@ -55,15 +55,22 @@ textarea {
 .afolderwrapper {
 	display: flex;
 	padding: 8px;
+	transition: 100ms all;
 }
 
+.afolderwrapper:hover {
+	background: rgba(10, 80, 255, 0.1);
+}
+
+.afolderwrapper:hover > .remove-link {
+	opacity: 1;
+}
 
 .afolder {
 	flex-grow: 1;
-	margin-left:10px;
-	padding-left:20px;
+	margin-left:16px;
 	height:16px;
-	font-size:8pt;
+	font-size:10pt;
 	padding-top:1px;
 	cursor:pointer;
 	font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -611,6 +618,12 @@ td.right:hover *  .arrowshadow {
 	overflow-x:hidden;
 	overflow-y:hidden;
 	background:#A7C4E9;
+}
+
+.remove-link {
+	color: red;
+	opacity: 0;
+	font-size: 10pt;
 }
 
 .upperleftemailwindow {
