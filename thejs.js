@@ -1022,25 +1022,35 @@ function makeFolder(name) {
 }
 
 function makeFolder2(name, custom) {
+  let subs = JSON.parse(localStorage.subs);
+  subs.push(name);
+  localStorage.subs = JSON.stringify(subs);
+
   var strippedID = "folder_" + name.replace(/\s/g, "");
+  const removeId = `remove_${strippedID}`;
+  const wrapperId = `wrapper_${strippedID}`;
   globalFolderDict[strippedID] = new myFolder();
   globalFolderDict[strippedID].strippedID = strippedID;
   globalFolderDict[strippedID].subredditname = name;
-  var tempHTML =
-    '<div class="afolderwrapper "><div class="afolder" id="' +
-    strippedID +
-    '">' +
-    name +
-    "</div></div>";
-  if (custom) {
-    tempHTML = tempHTML.replace(
-      "afolderwrapper",
-      "afolderwrapper customfolder"
-    );
-  }
+
+  const tempHTML = `
+    <div class="afolderwrapper${custom ? " customfolder": ""}" id="${wrapperId}">
+      <div class="afolder" id="${strippedId}">
+        ${name}
+      </div>
+      <a class="remove-link" id="${removeId}">remove</a>
+    </div>
+  `;
+
   $(".foldwraphi").removeClass("foldwraphi");
   $(".folderholder").append(tempHTML);
   $("#" + strippedID).click(folderIconClick);
+  $("#" + removeId).click(() => {
+    let subs = JSON.parse(localStorage.subs);
+    localStorage.subs = JSON.stringify(subs.filter(s => s !== name));
+    delete globalFolderDict[strippedID];
+    $("#" + wrapperId).remove();
+  });
   return globalFolderDict[strippedID];
 }
 
@@ -1077,28 +1087,36 @@ $(document).ready(function() {
   $(window).resize(onResize);
   $(".newemailbutton").click(addSubReddit);
   main_inbox = makeFolder("Front Page");
+  
+  let subs = localStorage.subs;
 
-  [
-    "popular",
-    "all",
-    "pcmasterrace",
-    "tifu",
-    "apple",
-    "android",
-    "gadgets",
-    "news",
-    "worldnews",
-    "todayilearned",
-    "programmerhumor",
-    "programming",
-    "gaming",
-    "askreddit",
-    "jokes",
-    "iama",
-    "nostupidquestions",
-    "iwantout",
-    "personalfinance"
-  ].forEach(subreddit => makeFolder(subreddit));
+  if (!subs) {
+    subs = [
+      "popular",
+      "all",
+      "pcmasterrace",
+      "tifu",
+      "apple",
+      "android",
+      "gadgets",
+      "news",
+      "worldnews",
+      "todayilearned",
+      "programmerhumor",
+      "programming",
+      "gaming",
+      "askreddit",
+      "jokes",
+      "iama",
+      "nostupidquestions",
+      "iwantout",
+      "personalfinance"
+    ];
+
+    localStorage.subs = JSON.stringify(subs);
+  }
+
+  subs.forEach(subreddit => makeFolder(subreddit));
 
   $("#folder_FrontPage")
     .parent()
