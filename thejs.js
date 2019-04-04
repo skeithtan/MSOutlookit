@@ -1137,4 +1137,6 @@ $(document).ready(function() {
       }
     }
   });
+
+  folderClick(subs[0]);
 });
