@@ -1080,7 +1080,11 @@ function addSubReddit() {
 $(document).ready(function() {
   let subs = [];
 
-  if (!localStorage.subs) {
+  if (localStorage.subs) {
+    subs = JSON.parse(localStorage.subs);
+  }
+
+  if (!localStorage.subs || subs.length === 0) {
     subs = [
       "popular",
       "all",
@@ -1104,8 +1108,6 @@ $(document).ready(function() {
     ];
 
     localStorage.subs = JSON.stringify(subs);
-  } else {
-    subs = JSON.parse(localStorage.subs);
   }
 
   onResize();
