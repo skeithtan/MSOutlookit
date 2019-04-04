@@ -1083,9 +1083,9 @@ function addSubReddit() {
   }
 }
 $(document).ready(function() {
-  let subs = localStorage.subs;
+  let subs = [];
 
-  if (!subs) {
+  if (!localStorage.subs) {
     subs = [
       "popular",
       "all",
@@ -1109,6 +1109,8 @@ $(document).ready(function() {
     ];
 
     localStorage.subs = JSON.stringify(subs);
+  } else {
+    subs = JSON.parse(localStorage.subs);
   }
 
   onResize();
