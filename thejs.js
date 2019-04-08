@@ -280,7 +280,7 @@ function myStory(parentJson, folder, addToDom) {
   var rootJson = parentJson.data;
   this.rootJson = rootJson;
   this.folder = folder;
-    var name = getRandomName();
+  var name = getRandomName();
   var author = rootJson.author;
   this.id = rootJson.name;
   var num_comments = rootJson.num_comments;
@@ -299,7 +299,9 @@ function myStory(parentJson, folder, addToDom) {
         <div class="emailtitle">
           (RE:${score}) ${this.title}
           <br />
-          <span class="email-footer">${rootJson.subreddit} | ${rootJson.domain} ${rootJson.over_18 ? "| NSFW" : ""}</span>
+          <span class="email-footer">${rootJson.subreddit} | ${
+    rootJson.domain
+  } ${rootJson.over_18 ? "| NSFW" : ""}</span>
         </div>
       </div>
     </div>
@@ -365,68 +367,90 @@ function commentsCallback(storyJSON) {
   var commentsRoot = storyJSON[1].data.children;
   var commentsHTML = "";
   const originalPoster = story.rootJson.author;
+
   for (var i = 0; i < commentsRoot.length; i++) {
     if (commentsRoot[i].kind == "more") {
       continue;
     }
     var commentJSON = commentsRoot[i].data;
-    var id = commentJSON.name;
-    commentsHTML += makeCommentHeader(commentJSON, originalPoster);
-    commentsHTML += '<div class="childrencomments child0">';
+    console.log("com", commentJSON);
+    commentsHTML += makeCommentHeader(commentJSON, originalPoster, 0);
+    // commentsHTML += '<div class="childrencomments child0">';
+    // commentsHTML += getChildComments(commentJSON.replies.data.children, 1, originalPoster);
+    // // try {
 
-    let isHidden = false;
-
-    $(`#${id} .hider`).click(() => {
-      const query = $("#" + id);
-
-      if (isHidden) {
-        query.removeClass("Hidden");
-      } else {
-        query.addClass("Hidden");
-      }
-
-      isHidden = !isHidden;
-    });
-
-    try {
-      commentsHTML += getChildComments(commentJSON.replies.data.children, 1);
-    } catch (err) {}
-    commentsHTML += "</div></div>";
+    // // } catch (err) {
+    // //   console.log("Failed", err);
+    // // }
+    // commentsHTML += "</div></div>";
   }
+
   story.bodyHTML += commentsHTML;
   if (currentStory == theStoryID) {
     $(".theemailbody").html(story.bodyHTML);
     onStoryLoad();
-  } else {
+
+    $(".hider").click(function() {
+      $(this)
+        .parent()
+        .toggleClass("hidden");
+    });
   }
 }
 
 function makeCommentHeader(
-  { ups, downs, author, body_html, name, created, controversiality, gildings },
-  originalPoster
+  {
+    ups,
+    downs,
+    author,
+    body_html,
+    name,
+    created,
+    controversiality,
+    gildings,
+    replies
+  },
+  originalPoster,
+  level
 ) {
   const timestamp = moment.unix(created);
 
   let controversialDisplay = "";
 
-  for(let i = 1; i <= controversiality; i++) {
+  for (let i = 1; i <= controversiality; i++) {
     controversialDisplay += `⚔️`;
   }
 
   let gildingsDisplay = "";
 
-  if (gildings.gild_1) {
+  if (gildings && gildings.gild_1) {
     gildingsDisplay += `💎(${gildings.gild_1}) `;
   }
 
-  if (gildings.gild_2) {
+  if (gildings && gildings.gild_2) {
     gildingsDisplay += `🏅(${gildings.gild_2}) `;
   }
 
-  if (gildings.gild_3) {
+  if (gildings && gildings.gild_3) {
     gildingsDisplay += `🥈(${gildings.gild_3})`;
   }
 
+  let childrenHTML = "";
+  console.log("rep", replies);
+
+  if (replies && replies.data && replies.data.children && replies.data.children.length > 0) {
+    const childrenComments = replies.data.children.map(
+      reply => makeCommentHeader(reply.data, originalPoster, level + 1)
+    );
+
+    childrenHTML = `
+      <div class="childrencomments child${level}">
+        ${childrenComments.join("\n")}
+      </div>
+    `;
+  }
+
+  console.log("ChildrenHTML", childrenHTML);
 
   return `
     <div id="${name}" class="commentroot">
@@ -437,8 +461,16 @@ function makeCommentHeader(
           <span class="commentauthor">${
             originalPoster === author ? `<b>👤OP - ${author}</b>` : author
           }</span>
-          ${gildingsDisplay.length > 0 ? `<span class="comment-gildings">${gildingsDisplay}</span>` : ""}
-          ${controversialDisplay.length > 0 ? `<span class="comment-controversiality">${controversialDisplay}</span>` : ""}
+          ${
+            gildingsDisplay.length > 0
+              ? `<span class="comment-gildings">${gildingsDisplay}</span>`
+              : ""
+          }
+          ${
+            controversialDisplay.length > 0
+              ? `<span class="comment-controversiality">${controversialDisplay}</span>`
+              : ""
+          }
           <span class="comment-date">${timestamp.fromNow()} (${timestamp.format(
     "MMM D Y"
   )})
@@ -446,53 +478,17 @@ function makeCommentHeader(
         <div class="commentbody">
           ${unEncode(body_html)}
         </div>
+        ${childrenHTML}
       </div>
     </div>
   `;
-
-  commentsHTML = "";
-  commentsHTML += '<div id="' + name + '" class="commentroot">';
-  commentsHTML += '<div class="authorandstuff showhover">';
-
-  commentsHTML +=
-    '<span class="score">' +
-    score +
-    '</span> <span class="commentauthor">' +
-    author +
-    "</span>";
-  commentsHTML += "</div>";
-  commentsHTML += '<div class="commentbody">' + body_html + "</div>";
-  return commentsHTML;
-}
-
-function getChildComments(jsonroot, level) {
-  if (jsonroot == null) {
-    return "";
-  }
-  var tempHTML = "";
-  for (var i = 0; i < jsonroot.length; i++) {
-    if (jsonroot[i].kind == "more") {
-      continue;
-    }
-    var commentjson = jsonroot[i].data;
-    var author = commentjson.author;
-    var body_html = unEncode(commentjson.body_html);
-    var score = commentjson.ups - commentjson.downs;
-    var id = commentjson.name;
-    tempHTML += makeCommentHeader(score, author, body_html, id);
-    tempHTML += '<div class="childrencomments child' + level + '">';
-    try {
-      tempHTML += getChildComments(
-        commentjson.replies.data.children,
-        level + 1
-      );
-    } catch (err) {}
-    tempHTML += "</div></div>";
-  }
-  return tempHTML;
 }
 
 function unEncode(text) {
+  if (!text) {
+    return;
+  }
+
   text = text.replace(/&lt;/gi, "<");
   text = text.replace(/&gt;/gi, ">");
   text = text.replace(/\n/g, "<br/>");

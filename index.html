@@ -298,10 +298,6 @@ div.theemailbody * .ui-resizable-e {
 	color: #369;
 }
 
-.commentroot {
-	position:relative;
-}
-
 td.right * .commentroothi {
 	background:#CAE6E6;
 	border:solid 1px blue;
@@ -354,12 +350,49 @@ td.right * img {
 }
 
 .commentroot {
+	position:relative;
 	display: flex;
+	margin: 8px 0;
+	transition: 100ms all;
 }
 
 .commentroot .hider {
 	height: 100%;
-	width: 20px;
+	position: absolute;
+	width: 4px;
+	background: #369;
+	cursor: pointer;
+	transition: 100ms all;
+	border-radius: 20px;
+}
+
+.hider:hover {
+	background: #9dcdfd;
+}
+
+.authorandstuff {
+	position:relative;
+	top:15px;
+	margin-left:5px;
+	font-size:small;
+	padding: 0 8px 8px;
+}
+
+.commentroot.hidden .commentbody {
+	display: none;
+}
+
+.commentroot.hidden .authorandstuff {
+	top:unset;
+	margin-left:5px;
+	font-size:small;
+	padding: 8px;
+	font-style: italic;
+	background: #f0f4ff;
+}
+
+.commentroot.hidden .childrencomments {
+	display: none;
 }
 
 .comment-date {
@@ -375,55 +408,8 @@ td.right * .authorandstuff {
 }
 
 td.right * .childrencomments {
-	margin-left:15px;
+	margin-left:8px;
 	border-left: 1px solid #FFF;
-}
-
-td.right * .child0 {
-	border-left: 1px solid #0066FF;
-}
-
-td.right * .child1 {
-	border-left: 1px solid #0099FF;
-}
-
-td.right * .child2 {
-	border-left: 1px solid #00CCFF;
-}
-
-td.right * .child3 {
-	border-left: 1px solid #00CCA3;
-}
-
-td.right * .child4 {
-	border-left: 1px solid #00CC7A;
-}
-
-td.right * .child5 {
-	border-left: 1px solid #33FF33;
-}
-
-td.right * .child6 {
-	border-left: 1px solid #66FF66;
-}
-td.right * .child7 {
-	border-left: 1px solid #99FF33;
-}
-td.right * .child8 {
-	border-left: 1px solid #CCFF33;
-}
-td.right * .child9 {
-	border-left: 1px solid #FFFF00;
-}
-td.right * .child10 {
-	border-left: 1px solid #FFCC00;
-}
-td.right * .child11 {
-	border-left: 1px solid #FF9933;
-}
-
-td.right * .child12 {
-	border-left: 1px #FF6600;
 }
 
 .commentbody {
@@ -455,14 +441,6 @@ td.right * .child12 {
 
 .comment-gildings, .comment-controversiality {
 	margin-left: 8px;
-}
-
-.authorandstuff {
-	position:relative;
-	top:15px;
-	margin-left:5px;
-	font-size:small;
-	padding: 0 8px 8px;
 }
 
 .right {
