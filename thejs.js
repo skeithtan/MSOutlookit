@@ -280,27 +280,31 @@ function myStory(parentJson, folder, addToDom) {
   var rootJson = parentJson.data;
   this.rootJson = rootJson;
   this.folder = folder;
-  var previewHTML =
-    '<div id="%id" class="anemail emailunread"><div class="emailicon"></div><div class="emailiconright"></div><div class="emailpreview"><div class="emailname">%randomname (%author)</div><div class="emailtitle">(RE:^%score)  %title <br /><span style="color: #3498DB">%subreddit | %domain</span></div></div></div>';
-  var name = getRandomName();
+    var name = getRandomName();
   var author = rootJson.author;
   this.id = rootJson.name;
   var num_comments = rootJson.num_comments;
   var score = rootJson.score;
   this.url = rootJson.url;
   this.title = rootJson.title;
-  if (rootJson.over_18) {
-    if (!alwaysHideNSFW || true) {
-      this.title = this.title + '<b><font style="color:red"> NSFW</font></b>';
-    }
-  }
-  previewHTML = previewHTML.replace("%author", author);
-  previewHTML = previewHTML.replace("%randomname", name);
-  previewHTML = previewHTML.replace("%score", score);
-  previewHTML = previewHTML.replace("%title", this.title);
-  previewHTML = previewHTML.replace("%subreddit", rootJson.subreddit);
-  previewHTML = previewHTML.replace("%domain", rootJson.domain);
-  previewHTML = previewHTML.replace("%id", this.id);
+
+  const previewHTML = `
+    <div id="${this.id}" class="anemail emailunread">
+      <div class="emailicon"></div>
+      <div class="emailiconright"></div>
+      <div class="emailpreview">
+        <div class="emailname">
+          ${name} (${author})
+        </div>
+        <div class="emailtitle">
+          (RE:${score}) ${this.title}
+          <br />
+          <span class="email-footer">${rootJson.subreddit} | ${rootJson.domain} ${rootJson.over_18 ? "| NSFW" : ""}</span>
+        </div>
+      </div>
+    </div>
+  `;
+
   this.previewHTML = previewHTML;
   this.bodyHTML = "";
   folder.emailDict[this.id] = this;
