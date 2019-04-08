@@ -360,17 +360,30 @@ function commentsCallback(storyJSON) {
   story.bodyHTML += '<div class="storycommentline"></div>';
   var commentsRoot = storyJSON[1].data.children;
   var commentsHTML = "";
+  const originalPoster = story.rootJson.author;
   for (var i = 0; i < commentsRoot.length; i++) {
     if (commentsRoot[i].kind == "more") {
       continue;
     }
     var commentJSON = commentsRoot[i].data;
-    var author = commentJSON.author;
-    var body_html = unEncode(commentJSON.body_html);
-    var score = commentJSON.ups - commentJSON.downs;
     var id = commentJSON.name;
-    commentsHTML += makeCommentHeader(score, author, body_html, id);
+    commentsHTML += makeCommentHeader(commentJSON, originalPoster);
     commentsHTML += '<div class="childrencomments child0">';
+
+    let isHidden = false;
+
+    $(`#${id} .hider`).click(() => {
+      const query = $("#" + id);
+
+      if (isHidden) {
+        query.removeClass("Hidden");
+      } else {
+        query.addClass("Hidden");
+      }
+
+      isHidden = !isHidden;
+    });
+
     try {
       commentsHTML += getChildComments(commentJSON.replies.data.children, 1);
     } catch (err) {}
@@ -384,10 +397,59 @@ function commentsCallback(storyJSON) {
   }
 }
 
-function makeCommentHeader(score, author, body_html, id) {
+function makeCommentHeader(
+  { ups, downs, author, body_html, name, created, controversiality, gildings },
+  originalPoster
+) {
+  const timestamp = moment.unix(created);
+
+  let controversialDisplay = "";
+
+  for(let i = 1; i <= controversiality; i++) {
+    controversialDisplay += `⚔️`;
+  }
+
+  let gildingsDisplay = "";
+
+  if (gildings.gild_1) {
+    gildingsDisplay += `💎(${gildings.gild_1}) `;
+  }
+
+  if (gildings.gild_2) {
+    gildingsDisplay += `🏅(${gildings.gild_2}) `;
+  }
+
+  if (gildings.gild_3) {
+    gildingsDisplay += `🥈(${gildings.gild_3})`;
+  }
+
+
+  return `
+    <div id="${name}" class="commentroot">
+      <div class="hider"></div>
+      <div class="comment-content">
+        <div class="authorandstuff showhover">
+          <span class="score">${ups - downs}</span>
+          <span class="commentauthor">${
+            originalPoster === author ? `<b>👤OP - ${author}</b>` : author
+          }</span>
+          ${gildingsDisplay.length > 0 ? `<span class="comment-gildings">${gildingsDisplay}</span>` : ""}
+          ${controversialDisplay.length > 0 ? `<span class="comment-controversiality">${controversialDisplay}</span>` : ""}
+          <span class="comment-date">${timestamp.fromNow()} (${timestamp.format(
+    "MMM D Y"
+  )})
+        </div>
+        <div class="commentbody">
+          ${unEncode(body_html)}
+        </div>
+      </div>
+    </div>
+  `;
+
   commentsHTML = "";
-  commentsHTML += '<div id="' + id + '" class="commentroot">';
+  commentsHTML += '<div id="' + name + '" class="commentroot">';
   commentsHTML += '<div class="authorandstuff showhover">';
+
   commentsHTML +=
     '<span class="score">' +
     score +
@@ -702,7 +764,7 @@ function isActuallyImgur(externallink) {
 
 function onResize() {
   $(".backgradient").height($(window).height() - 139 + noTaskbar * 60);
-  $(".mainrow").height($(window).height() - 200 + noTaskbar * 60);
+  $(".mainrow").height($(window).height() - 191 + noTaskbar * 60);
   $("#previewarea").height($(window).height() - 216 + noTaskbar * 60);
   $(".theemailbody").height($(window).height() - 146 + noTaskbar * 60);
   $(".right").width($(window).width() - 640 + noTaskbar * 60);
